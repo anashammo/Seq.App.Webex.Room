@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{361863BC-D3AA-4184-B5AD-661472F1A240}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{00A5B228-7E45-49CA-AA09-232A724ADF5E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{42EC2FD1-CBE7-4C0D-8A9A-73BC8B6E1639}"
+	ProjectSection(SolutionItems) = preProject
+		asset\Seq.App.Webex.Room.png = asset\Seq.App.Webex.Room.png
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.App.Webex.Room", "src\Seq.App.Webex.Room\Seq.App.Webex.Room.csproj", "{ED79DE63-E739-47B5-BB5D-05B47BF81703}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED79DE63-E739-47B5-BB5D-05B47BF81703} = {361863BC-D3AA-4184-B5AD-661472F1A240}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED79DE63-E739-47B5-BB5D-05B47BF81703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED79DE63-E739-47B5-BB5D-05B47BF81703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED79DE63-E739-47B5-BB5D-05B47BF81703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED79DE63-E739-47B5-BB5D-05B47BF81703}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
