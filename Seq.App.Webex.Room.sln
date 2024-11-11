@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{42EC2FD1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.App.Webex.Room", "src\Seq.App.Webex.Room\Seq.App.Webex.Room.csproj", "{ED79DE63-E739-47B5-BB5D-05B47BF81703}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.App.Webex.Room.TestConsole", "test\Seq.App.Webex.Room.TestConsole\Seq.App.Webex.Room.TestConsole.csproj", "{64A68B9F-90AE-4CB1-A652-50F51F6E87D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,11 +20,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ED79DE63-E739-47B5-BB5D-05B47BF81703} = {361863BC-D3AA-4184-B5AD-661472F1A240}
+		{64A68B9F-90AE-4CB1-A652-50F51F6E87D8} = {00A5B228-7E45-49CA-AA09-232A724ADF5E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{ED79DE63-E739-47B5-BB5D-05B47BF81703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED79DE63-E739-47B5-BB5D-05B47BF81703}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED79DE63-E739-47B5-BB5D-05B47BF81703}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED79DE63-E739-47B5-BB5D-05B47BF81703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A68B9F-90AE-4CB1-A652-50F51F6E87D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A68B9F-90AE-4CB1-A652-50F51F6E87D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A68B9F-90AE-4CB1-A652-50F51F6E87D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A68B9F-90AE-4CB1-A652-50F51F6E87D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

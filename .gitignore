@@ -1,3 +1,5 @@
 .DS_Store
 /src/Seq.App.Webex.Room/bin
 /src/Seq.App.Webex.Room/obj
+/test/Seq.App.Webex.Room.TestConsole/bin
+/test/Seq.App.Webex.Room.TestConsole/obj
