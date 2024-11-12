@@ -22,7 +22,10 @@ class Program
                 [nameof(WebexApp.ProxyPassword)] = "ddd",
             })
             .CreateLogger();
-        
-        logger.Information("Hello, {Name}!", Environment.UserName);
+
+        //logger.Information("Hello, {Name}!", Environment.UserName);
+
+        logger.Error(new Exception("Something went wrong again!", new Exception("Something went wrong!")),
+            "Something went wrong for {Name}", Environment.UserName);
     }
 }

@@ -1,3 +1,5 @@
+using System.Dynamic;
+using System.Text.Json;
 using Seq.Api;
 using Seq.Api.Model.Events;
 using Seq.Apps;
@@ -51,22 +53,107 @@ public class WebexApp : SeqApp, ISubscribeToAsync<LogEventData>
     
     public async Task OnAsync(Event<LogEventData> evt)
     {
-        throw new NotImplementedException();
+        var eventAsJson = System.Text.Json.JsonSerializer.Serialize(evt, new JsonSerializerOptions()
+        {
+            
+        });
+        
+        // var properties = (IDictionary<string,object?>) ToDynamic(evt.Data.Properties ?? new Dictionary<string, object?>());
+        //
+        // var payload = (IDictionary<string,object?>) ToDynamic(new Dictionary<string, object?>
+        // {
+        //     { "Id",                  evt.Id },
+        //     { "Timestamp",           evt.Timestamp },
+        //     { "LocalTimestamp",      evt.Data.LocalTimestamp },
+        //     { "Level",               evt.Data.Level },
+        //     { "MessageTemplate",     evt.Data.MessageTemplate },
+        //     { "Message",             evt.Data.RenderedMessage },
+        //     { "Exception",           evt.Data.Exception },
+        //     { "Properties",          properties },
+        //     { "EventType",           "$" + evt.EventType.ToString("X8") },
+        //     { "Instance",            Host.InstanceName },
+        //     { "ServerUri",           Host.BaseUri },
+        //     // Note, this will only be valid when events are streamed directly to the app, and not when the app is sending an alert notification.
+        //     { "EventUri",            string.Concat(Host.BaseUri, "#/events?filter=@Id%20%3D%20'", evt.Id, "'&amp;show=expanded") }
+        // });
+        //
+        // foreach (var property in properties)
+        // {
+        //     if (property.Key.Equals("Alert", StringComparison.OrdinalIgnoreCase))
+        //     {
+        //         var alertData = (List<object?>) ToDynamic(property.Value ?? new List<object?>());
+        //
+        //         payload[property.Key] = alertData;
+        //     }
+        //     else if (property.Key.Equals("Source", StringComparison.OrdinalIgnoreCase))
+        //     {
+        //         var sourceData = (List<object?>) ToDynamic(property.Value ?? new List<object?>());
+        //         
+        //         payload[property.Key] = sourceData;
+        //         
+        //     }
+        //     else if (property.Key.Equals("Failures", StringComparison.OrdinalIgnoreCase))
+        //     {
+        //         var failuresData = (List<object?>) ToDynamic(property.Value ?? new List<object?>());
+        //         
+        //         payload[property.Key] = failuresData;
+        //     }
+        //     else
+        //     {
+        //         payload[property.Key] = property.Value;
+        //     }
+        // }
+        
+        var logger = Log
+            .ForContext<WebexApp>()
+            .ForContext("Method", "OnAsync");
+            
+        logger.Information("Event detected: {Event}", eventAsJson);
+        
+        var seqEvent = await GetEventById(evt.Id);
+
+        if (seqEvent == null)
+        {
+            return;
+        }
     }
     
-    public async Task<EventEntity> GetEventById(string eventId)
+    private async Task<EventEntity?> GetEventById(string eventId)
     {
         try
         {
             using var connection = new SeqConnection(Host.BaseUri, ApiKey);
             
-            var eventEntity = await connection.Events.FindAsync(eventId);
-            
-            return eventEntity;
+            return await connection.Events.FindAsync(eventId);
         }
         catch (Exception ex)
         {
-            throw new Exception($"Failed to retrieve event with ID {eventId}", ex);
+            var logger = Log
+                .ForContext<WebexApp>()
+                .ForContext("Method", "GetEventById");
+            
+            logger.Error(ex, "Failed to retrieve event with ID {eventId}", eventId);
         }
+
+        return default;
+    }
+    
+    private object ToDynamic(object o)
+    {
+        if (o is IEnumerable<KeyValuePair<string, object>> dictionary)
+        {
+            var result = new ExpandoObject();
+            var asDict = (IDictionary<string, object?>) result;
+            foreach (var kvp in dictionary)
+                asDict.Add(kvp.Key, ToDynamic(kvp.Value));
+            return result;
+        }
+
+        if (o is IEnumerable<object> enumerable)
+        {
+            return enumerable.Select(ToDynamic).ToArray();
+        }
+
+        return o;
     }
 }

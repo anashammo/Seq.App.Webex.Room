@@ -9,7 +9,6 @@
         <PackageTags>seq-app</PackageTags>
         <VersionPrefix>1.0.0</VersionPrefix>
         <Description>Send events and notifications to a Webex configured Room</Description>
-        <PackageLicenseUrl>https://github.com/anashammo/Seq.App.Webex.Room?tab=Apache-2.0-1-ov-file</PackageLicenseUrl>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageIcon>Seq.App.Webex.Room.png</PackageIcon>
         <RepositoryType>git</RepositoryType>
