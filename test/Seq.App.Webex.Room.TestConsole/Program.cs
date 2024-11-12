@@ -10,7 +10,6 @@ class Program
             .WriteTo.Console()
             .AuditTo.SeqApp<WebexApp>(new Dictionary<string, string>
             {
-                [nameof(WebexApp.UsedByAlerts)] = "true",
                 [nameof(WebexApp.RoomId)] = "xxx",
                 [nameof(WebexApp.AuthorizationBearerToken)] = "yyy",
                 [nameof(WebexApp.ApiKey)] = "zzz",
