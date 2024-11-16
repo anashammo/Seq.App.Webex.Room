@@ -1,6 +1,6 @@
 namespace Seq.App.Webex.Room.Models;
 
-public record WebexMessage
+public class WebexMessage
 {
     public string roomId { get; set; }
     
