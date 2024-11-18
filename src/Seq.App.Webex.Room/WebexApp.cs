@@ -111,20 +111,48 @@ public class WebexApp : SeqApp, ISubscribeToAsync<LogEventData>
 
             logger.Information("Event detected: {Event}", eventAsJsonDocument);
 
-            if (root.TryGetProperty("Data", out var data) && data.TryGetProperty("Properties", out var properties) &&
-                properties.TryGetProperty("Alert", out var alert))
+            if (root.TryGetProperty("Data", out var dataElement) && dataElement.TryGetProperty("Properties", out var propertiesElement) &&
+                propertiesElement.TryGetProperty("Alert", out var alertElement))
             {
-                var alertData = new Models.Alerts.AlertRoot();
+                var alertData = CreateAlert(dataElement);
             }
             else
             {
-                var eventData = new Models.Events.EventRoot();
+                var eventData = CreateEvent(dataElement);
             }
         }
         catch (Exception ex)
         {
             logger.Error(ex, "Failed to send event with Id: {EventId}", evt.Id);
         }
+    }
+
+    private Models.Alerts.AlertRoot CreateAlert(JsonElement dataElement)
+    {
+        var alertData = new Models.Alerts.AlertRoot();
+
+        return alertData;
+    }
+    
+    private Models.Events.EventRoot CreateEvent(JsonElement dataElement)
+    {
+        var eventData = new Models.Events.EventRoot();
+
+        return eventData;
+    }
+
+    private WebexMessage CreateWebexMessage(Models.Alerts.AlertRoot alertData)
+    {
+        var message = new WebexMessage();
+
+        return message;
+    }
+    
+    private WebexMessage CreateWebexMessage(Models.Events.EventRoot eventData)
+    {
+        var message = new WebexMessage();
+
+        return message;
     }
 
     private async Task<EventEntity?> GetEventById(string eventId)
