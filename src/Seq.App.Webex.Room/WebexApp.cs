@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Seq.Api;
 using Seq.Api.Model.Events;
+using Seq.App.Webex.Room.Models;
 using Seq.Apps;
 using Seq.Apps.LogEvents;
 
