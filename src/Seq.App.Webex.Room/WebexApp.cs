@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Seq.Api;
 using Seq.Api.Model.Events;
+using Seq.App.Webex.Room.HttpClient;
 using Seq.App.Webex.Room.Models;
 using Seq.Apps;
 using Seq.Apps.LogEvents;
@@ -57,7 +58,7 @@ public class WebexApp : SeqApp, ISubscribeToAsync<LogEventData>
         IsOptional = false,
         InputType = SettingInputType.Checkbox,
         HelpText = "If checked, The HTTP proxy will be used to connect to the Webex API will use username and password")]
-    public string AuthenticatedProxy { get; set; }
+    public bool AuthenticatedProxy { get; set; }
 
     [SeqAppSetting(
         DisplayName = "HTTP Proxy Username",
@@ -80,13 +81,33 @@ public class WebexApp : SeqApp, ISubscribeToAsync<LogEventData>
     public int SuppressionMinutes { get; set; }
     
     private EventTypeSuppressions _suppressions;
+    
+    private IWebexHttpClient _webexHttpClient;
 
     public WebexApp()
     {
     }
 
+    internal WebexApp(IWebexHttpClient webexHttpClient)
+    {
+        _webexHttpClient = webexHttpClient;
+    }
+
     protected override void OnAttached()
     {
+        if (_webexHttpClient == null)
+        {
+            _webexHttpClient = new WebexHttpClient(new HttpClientConfigurations()
+            {
+                AuthenticatedProxy = AuthenticatedProxy,
+                ProxyAddress = ProxyAddress,
+                ProxyPort = ProxyPort,
+                UseProxy = UseProxy,
+                ProxyPassword = ProxyPassword,
+                ProxyUsername = ProxyUsername,
+                AuthorizationBearerToken = AuthorizationBearerToken
+            });
+        }
     }
 
     public async Task OnAsync(Event<LogEventData> evt)
@@ -116,10 +137,18 @@ public class WebexApp : SeqApp, ISubscribeToAsync<LogEventData>
                 propertiesElement.TryGetProperty("Alert", out var alertElement))
             {
                 var alertData = CreateAlert(dataElement);
+
+                var webexMessage = CreateWebexMessage(alertData);
+                
+                await _webexHttpClient.SendWebexMessage(webexMessage);
             }
             else
             {
                 var eventData = CreateEvent(dataElement);
+                
+                var webexMessage = CreateWebexMessage(eventData);
+                
+                await _webexHttpClient.SendWebexMessage(webexMessage);
             }
         }
         catch (Exception ex)
